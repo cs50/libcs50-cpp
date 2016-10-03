@@ -9,3 +9,4 @@
     * `get_long_long`
     * `get_string`
 * Disable buffering of `std::cout` and `std::cerr`.
+* Decide whether `get_string` should return `string` or `c_str`.
