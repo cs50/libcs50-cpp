@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <climits>
+#include <regex>
 
 #include "cs50.h"
 
@@ -20,8 +21,6 @@ void eprintf()
  * char; if text does not represent a char, user is prompted to retry.
  * If eof or input stream corrupt (failed to read into string) returns
  * CHAR_MAX.
- * NOTE perhaps state shouldn't be cleared in case of bad bit?
- * NOTE perhaps error should be thrown instead?
  */
 char get_char()
 {
@@ -70,13 +69,6 @@ float get_float(void)
  * char; if text does not represent a char, user is prompted to retry.
  * If eof or input stream corrupt (failed to read into string) or int
  * out of range returns INT_MAX.
- * NOTE perhaps state shouldn't be cleared in case of bad bit?
- * NOTE perhaps error should be thrown instead?
- * NOTE using C++11 range-based for loop and stoi standard library function
- * which should be replaced if compiling without C++11 flag
- * NOTE stoi will throw an std::out_of_range error, we just  prompt for a
- * retry, perhaps cerr-ing a message about out of range before reprompting
- * would be more appropriate 
  */
 int get_int()
 {
@@ -92,32 +84,11 @@ int get_int()
             return INT_MAX;
         }
 
-        // check if input is a valid integral number (digits only)
-        bool valid = true;
-        // NOTE - this is a >= C++11 for loop
-        for (auto i : str)
-        {
-            if (!isdigit(i))
-            {
-                valid = false;
-                break;
-            }
-        }
+        // regex for 0 or 1 + or -, followed by one or more digits
+        std::regex re("[+-]?\\d+");
 
-        // a C++97/C++03 for loop equivalent to above using iterators
-        /*
-        for (std::string::const_iterator i = str.begin(); i != str.end(); ++i)
-        {
-            if(!isdigit(*i))
-            {
-                valid = false;
-                break; 
-            }
-        }
-        */
-
-        // on correct input convert string to int (stoi is a C++11 function)
-        if (valid && str.size() > 0)
+        // on digits-only input attempt to convert string to int
+        if (std::regex_match(str, re))
         {
             try
             {
@@ -152,21 +123,11 @@ long long get_long_long()
             return LLONG_MAX;
         }
 
-        // check if input is a valid integral number (digits only)
-        bool valid = true;
-        // NOTE - this is a >= C++11 range-based for loop
-        for (auto i : str)
-        {
-            if (!isdigit(i))
-            {
-                valid = false;
-                break;
-            }
-        }
+        // regex for 0 or 1 + or -, followed by one or more digits
+        std::regex re("[+-]?\\d+");
 
-
-        // on correct input convert string to int (stoll is a C++11 function)
-        if (valid && str.size() > 0)
+        // on digits-only input attempt to convert string to long long int
+        if (std::regex_match(str, re))
         {
             try
             {
@@ -207,3 +168,4 @@ std::string get_string(void)
 }
 
 }
+
