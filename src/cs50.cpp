@@ -67,8 +67,8 @@ float get_float(void)
 /**
  * Reads a line of text from standard input and returns the equivalent
  * char; if text does not represent a char, user is prompted to retry.
- * If eof or input stream corrupt (failed to read into string) returns
- * INT_MAX.
+ * If eof or input stream corrupt (failed to read into string) or int
+ * out of range returns INT_MAX.
  * NOTE perhaps state shouldn't be cleared in case of bad bit?
  * NOTE perhaps error should be thrown instead?
  * NOTE using C++11 range-based for loop and stoi standard library function
