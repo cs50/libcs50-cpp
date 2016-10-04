@@ -27,12 +27,18 @@ double get_double(void);
 float get_float(void);
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent
+ * char; if text does not represent a char, user is prompted to retry.
+ * If eof or input stream corrupt (failed to read into string) returns
+ * INT_MAX.
  */
 int get_int(void);
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent
+ * char; if text does not represent a char, user is prompted to retry.
+ * If eof or input stream corrupt (failed to read into string) returns
+ * INT_MAX.
  */
 long long get_long_long(void);
 

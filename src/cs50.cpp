@@ -28,7 +28,7 @@ char get_char()
         std::string str;
         std::getline(std::cin, str);
 
-        // if eof, failbit or badbit clear state and return 0
+        // if eof, failbit or badbit clear state and return CHAR_MAX
         if (std::cin.eof() || std::cin.fail())
         {
             std::cin.clear();
@@ -49,7 +49,7 @@ char get_char()
 /**
  * TODO
  */
-double get_double()
+double get_double(void)
 {
     // TODO
     return 0.0;
@@ -65,12 +65,75 @@ float get_float(void)
 }
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent
+ * char; if text does not represent a char, user is prompted to retry.
+ * If eof or input stream corrupt (failed to read into string) returns
+ * INT_MAX.
+ * NOTE perhaps state shouldn't be cleared in case of bad bit?
+ * NOTE perhaps error should be thrown instead?
+ * NOTE using C++11 range-based for loop and stoi standard library function
+ * which should be replaced if compiling without C++11 flag
+ * NOTE stoi will throw an std::out_of_range error, we just return INT_MAX
+ * and prompt for a retry, perhaps cerr-ing a message about out of range
+ * before reprompting would be more appropriate 
  */
-int get_int(void)
+int get_int()
 {
-    // TODO
-    return 0;
+    // attempt to take an int from the user
+    while (true)
+    {
+        std::string str;
+        std::getline(std::cin, str);
+
+        // if eof, failbit or badbit clear state and return INT_MAX
+        if (std::cin.eof() || std::cin.fail())
+        {
+            std::cin.clear();
+            return INT_MAX;
+        }
+
+        // check if input is a valid integral number (digits only)
+        bool validInput = true;
+        // NOTE - this is a >= C++11 for loop
+        for (auto i : str)
+        {
+            if (!isdigit(i))
+            {
+                validInput = false;
+                break;
+            }
+        }
+
+        // a C++97/C++03 for loop equivalent to above using iterators
+        /*
+        for (std::string::const_iterator i = str.begin(); i != str.end(); ++i)
+        {
+            if(!isdigit(*i))
+            {
+                validInput = false;
+                break; 
+            }
+        }
+        */
+
+        // on correct input convert string to int (stoi is a C++11 function)
+        if (validInput && str.size() > 0)
+        {
+            try
+            {
+                return std::stoi(str);
+            }
+            // in case of value exceeding int size
+            catch (const std::exception&)
+            {
+                return INT_MAX;
+            }
+        }
+
+        // if we're here the input was not ok so reprompt
+        std::cout << "Retry: ";
+
+    }
 }
 
 /**
