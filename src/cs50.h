@@ -9,7 +9,12 @@ namespace cs50
 void eprintf();
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent
+ * char; if text does not represent a char, user is prompted to retry.
+ * Leading and trailing whitespace is ignored. If input stream
+ * corrupt (failed to read into string) returns CHAR_MAX.
+ * NOTE perhaps state shouldn't be cleared in case of bad bit?
+ * NOTE perhaps error should be thrown instead?
  */
 char get_char(void);
 
