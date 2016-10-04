@@ -42,7 +42,7 @@ char get_char()
         }
 
         // return 1st char of s only if single char of input 
-        if (s.size() == 1)
+        else if (s.size() == 1)
         {
             return s[0];
         }
