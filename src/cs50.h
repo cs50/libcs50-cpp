@@ -14,7 +14,7 @@ void eprintf();
  * If eof or input stream corrupt (failed to read into string) returns
  * CHAR_MAX.
  */
-char get_char(void);
+char get_char();
 
 /**
  * TODO
@@ -32,7 +32,7 @@ float get_float(void);
  * If eof or input stream corrupt (failed to read into string) returns
  * INT_MAX.
  */
-int get_int(void);
+int get_int();
 
 /**
  * Reads a line of text from standard input and returns the equivalent
@@ -40,11 +40,11 @@ int get_int(void);
  * If eof or input stream corrupt (failed to read into string) returns
  * INT_MAX.
  */
-long long get_long_long(void);
+long long get_long_long();
 
 /**
  * TODO
  */
-std::string get_string(void);
+std::string get_string();
 
 }
