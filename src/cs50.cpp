@@ -16,8 +16,8 @@ void eprintf()
 /**
  * Reads a line of text from standard input and returns the equivalent
  * char; if text does not represent a char, user is prompted to retry.
- * Leading and trailing whitespace is ignored. If input stream
- * corrupt (failed to read into string) returns CHAR_MAX.
+ * If eof or input stream corrupt (failed to read into string) returns
+ * CHAR_MAX.
  * NOTE perhaps state shouldn't be cleared in case of bad bit?
  * NOTE perhaps error should be thrown instead?
  */
@@ -25,26 +25,20 @@ char get_char()
 {
     while (true)
     {
-        std::string s;
-        std::getline(std::cin, s);
+        std::string str;
+        std::getline(std::cin, str);
 
-        // if eof clear state and prompt retry
-        if (std::cin.eof())
-        {
-            std::cin.clear();
-            std::cout << std::endl; // go to new line before prompt
-        }
-        // if fail or bad bit set in cin clear state and return
-        else if (std::cin.fail())
+        // if eof, failbit or badbit clear state and return 0
+        if (std::cin.eof() || std::cin.fail())
         {
             std::cin.clear();
             return CHAR_MAX;
         }
 
         // return 1st char of s only if single char of input 
-        else if (s.size() == 1)
+        else if (str.size() == 1)
         {
-            return s[0];
+            return str[0];
         }
         
         // we're here if input was not exactly one char + newline
@@ -55,7 +49,7 @@ char get_char()
 /**
  * TODO
  */
-double get_double(void)
+double get_double()
 {
     // TODO
     return 0.0;
