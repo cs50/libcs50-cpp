@@ -163,9 +163,6 @@ std::string get_string(void)
     try
     {
         std::getline(std::cin, s);
-        while (true) {
-            s += s;
-        }
     }
     catch (const std::exception& e)
     {
