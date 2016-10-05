@@ -1,7 +1,7 @@
-#include <iostream>
-#include <string>
 #include <climits>
+#include <iostream>
 #include <regex>
+#include <string>
 
 #include "cs50.h"
 
@@ -49,9 +49,11 @@ char get_char()
 /**
  * TODO
  */
-double get_double(void)
+double get_double()
 {
-    // TODO
+    /**
+    * TODO
+    */
     return 0.0;
 }
 
@@ -65,10 +67,10 @@ float get_float(void)
 }
 
 /**
- * Reads a line of text from standard input and returns the equivalent
- * char; if text does not represent a char, user is prompted to retry.
- * If eof or input stream corrupt (failed to read into string) or int
- * out of range returns INT_MAX.
+ * Reads a line of text from standard input and returns the int value of the
+ * string. If text does not represent an int user is prompted to retry. If eof
+ * or input stream corrupt (failed to read into string) or int is out of range
+ * returns INT_MAX.
  */
 int get_int()
 {
@@ -84,7 +86,7 @@ int get_int()
             return INT_MAX;
         }
 
-        // regex for 0 or 1 + or -, followed by one or more digits
+        // regex for 0 or 1 + or -, followed by one or more digits
         std::regex re("[+-]?\\d+");
 
         // on digits-only input attempt to convert string to int
@@ -103,12 +105,14 @@ int get_int()
 
         // if we're here the input was not ok so reprompt
         std::cout << "Retry: ";
-
     }
 }
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent long
+ * long int; if string does not represent a long long int, user is prompted to
+ * retry. If eof or input stream corrupt (failed to read into string) or int
+ * out of range returns LLONG_MAX.
  */
 long long get_long_long()
 {
@@ -116,7 +120,7 @@ long long get_long_long()
     {
         std::string str = get_string();
 
-        // if eof, failbit or badbit clear state and return INT_MAX
+        // if eof, failbit or badbit clear state and return LLONG_MAX
         if (std::cin.eof() || std::cin.fail())
         {
             std::cin.clear();
@@ -154,18 +158,33 @@ std::string get_string(void)
     // TODO: check for failure
     // TODO: decide whether to return string or c_str
     std::string s;
-    std::getline(std::cin, s);
 
+    // attempt to read string input into s, report error if failed
+    try
+    {
+        std::getline(std::cin, s);
+        while (true) {
+            s += s;
+        }
+    }
+    catch (const std::exception& e)
+    {
+        // report error and rethrow in case someone's handling it downstream
+        std::cerr << e.what() << std::endl;
+        throw e;
+    }
+
+    // check if input stream in bad state (hardware failure?)
     if (std::cin.bad())
     {
         // NOTE - stream not cleared here for eof/fail checks downstream
         // if we're here we can't recover the cin stream
         std::cerr << "cs50 get_string error: cannot read input!\n";
-        // we only get here in case of catastrophic error
+        // we only get here in case of catastrophic error so throw
         throw (std::runtime_error("error reading input"));
     }
+
     return s;
 }
 
 }
-

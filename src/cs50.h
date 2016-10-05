@@ -19,7 +19,7 @@ char get_char();
 /**
  * TODO
  */
-double get_double(void);
+double get_double();
 
 /**
  * TODO
