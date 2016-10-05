@@ -45,7 +45,8 @@ double get_double(void)
         }
 
         // regex for [optional] + or - sign, followed by one of the following: either a number followed by floating point and [optional] digits, or an [optional] number followed by floating point and digits, or any number
-        std::regex re("[-+]?([0-9]+\\.[0-9]*|[0-9]*\\.[0-9]+|[0-9]+)");
+ 
+       std::regex re("(\\+|-)?\\d*(\\.\\d*)?");
 
         // on matching input attempt to convert string to double
         if (std::regex_match(str, re))
@@ -89,7 +90,7 @@ float get_float(void)
         }
 
         // regex for [optional] + or - sign, followed by one of the following: either a number followed by floating point and [optional] digits, or an [optional] number followed by floating point and digits, or any number
-        std::regex re("[-+]?([0-9]+\\.[0-9]*|[0-9]*\\.[0-9]+|[0-9]+)");
+        std::regex re("(\\+|-)?\\d*(\\.\\d*)?");
 
         // on matching input attempt to convert string to float
         if (std::regex_match(str, re))
@@ -143,4 +144,7 @@ std::string get_string(void)
 
 }
 
-
+int main() {
+    double d = cs50::get_double();
+    std::cout << d << std::endl;
+}
