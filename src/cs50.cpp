@@ -178,7 +178,7 @@ std::string get_string(void)
         // if we're here we can't recover the cin stream
         std::cerr << "cs50 get_string error: cannot read input!\n";
         // we only get here in case of catastrophic error so throw
-        throw (std::runtime_error("error reading input"));
+        throw (std::runtime_error("cs50::get_string: error reading input"));
     }
 
     return s;
