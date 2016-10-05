@@ -32,7 +32,7 @@ char get_char(void)
  */
 double get_double(void)
 {
-        // attempt to take an int from the user
+    // attempt to take a double from the user
     while (true)
     {
         std::string str = get_string();
@@ -77,7 +77,7 @@ double get_double(void)
  */
 float get_float(void)
 {
-            // attempt to take an float from the user
+    // attempt to take a float from the user
     while (true)
     {
         std::string str = get_string();
