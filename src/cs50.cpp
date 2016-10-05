@@ -25,10 +25,10 @@ char get_char(void)
 }
 
 /**
- * Reads a line of text from stdin via get_string(). 
- * Uses regex to match float pattern. If success, returns the input converted to a float. 
- * If input doesn't match pattern, prompts user to retry. 
- * If error stream, returns FLT_MAX
+ * Reads a line of text from standard input and returns the equivalent
+ * double as precisely as possible; if text does not represent a
+ * double or if value would cause underflow or overflow, user is
+ * prompted to retry. If line can't be read, returns DBL_MAX.
  */
 double get_double(void)
 {
@@ -44,8 +44,7 @@ double get_double(void)
             return DBL_MAX;
         }
 
-        // regex for [optional] + or - sign, followed by one of the following: either a number followed by floating point and [optional] digits, or an [optional] number followed by floating point and digits, or any number
- 
+       // validate input 
        std::regex re("(\\+|-)?\\d*(\\.\\d*)?");
 
         // on matching input attempt to convert string to double
@@ -70,10 +69,10 @@ double get_double(void)
 }
 
 /**
- * Reads a line of text from stdin via get_string(). 
- * Uses regex to match float pattern. If success, returns the input converted to a float. 
- * If input doesn't match pattern, prompts user to retry. 
- * If error stream, returns FLT_MAX
+ * Reads a line of text from standard input and returns the equivalent
+ * float as precisely as possible; if text does not represent a
+ * float or if value would cause underflow or overflow, user is
+ * prompted to retry. If line can't be read, returns FLT_MAX.
  */
 float get_float(void)
 {
@@ -89,7 +88,7 @@ float get_float(void)
             return FLT_MAX;
         }
 
-        // regex for [optional] + or - sign, followed by one of the following: either a number followed by floating point and [optional] digits, or an [optional] number followed by floating point and digits, or any number
+        // validate input
         std::regex re("(\\+|-)?\\d*(\\.\\d*)?");
 
         // on matching input attempt to convert string to float
