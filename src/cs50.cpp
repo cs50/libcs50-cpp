@@ -144,7 +144,4 @@ std::string get_string(void)
 
 }
 
-int main() {
-    double d = cs50::get_double();
-    std::cout << d << std::endl;
-}
+
