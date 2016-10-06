@@ -1,12 +1,9 @@
-#include <cerrno>
 #include <cfloat>
-#include <cmath>
 #include <cstdlib>
-#include <cstring>
 #include <iostream>
-#include <string>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
 #include "cs50.h"
 
@@ -61,8 +58,6 @@ std::string read_input(bool *ok)
     *ok = true;
     return str;
 }
-
-
 
 /**
  * TODO
