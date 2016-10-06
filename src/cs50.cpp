@@ -1,11 +1,20 @@
+#include <cerrno>
+#include <cfloat>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <string>
+
 #include "cs50.h"
-#include <regex>
-#include <cfloat>
 
 namespace cs50
 {
+
+/** static variable which will call the constructor before 
+ * execution enters main.
+*/
+static BeforeMain init;
 
 /**
  * TODO
@@ -37,35 +46,31 @@ double get_double(void)
     {
         std::string str = get_string();
 
-        // if eof, failbit or badbit clear state and return DOUBLE_MAX
-        if (std::cin.eof() || std::cin.fail())
+        // if eof, failbit or badbit return DOUBLE_MAX
+        if (str[0] == '\0')
         {
-            std::cin.clear();
             return DBL_MAX;
         }
 
-       // validate input 
-       std::regex re("(\\+|-)?\\d*(\\.\\d*)?");
-
-        // on matching input attempt to convert string to double
-        if (std::regex_match(str, re))
+        // validate input 
+        if(!isspace(str[0])) 
         {
-            try
+            char* tail;
+            errno = 0;
+            double d = strtod(str.c_str(), &tail);
+            if (errno == 0 && *tail == '\0' && d > DBL_MIN && d < DBL_MAX)
             {
-                return std::stod(str);
-            }
-            // in case of value exceeding double size do nothing and reprompt
-            catch (const std::exception&)
-            {
-                ;
+                // disallow hexadecimal and exponents
+                if (strcspn(str.c_str(), "XxEePp") == str.length())
+                {
+                    return d;
+                }
             }
         }
 
         // if we're here the input was not ok so reprompt
         std::cout << "Retry: ";
-
     }
-
 }
 
 /**
@@ -76,38 +81,35 @@ double get_double(void)
  */
 float get_float(void)
 {
-    // attempt to take a float from the user
+    // attempt to take a double from the user
     while (true)
     {
         std::string str = get_string();
 
-        // if eof, failbit or badbit clear state and return FLT_MAX
-        if (std::cin.eof() || std::cin.fail())
+        // if eof, failbit or badbit return DOUBLE_MAX
+        if (str[0] == '\0')
         {
-            std::cin.clear();
             return FLT_MAX;
         }
 
-        // validate input
-        std::regex re("(\\+|-)?\\d*(\\.\\d*)?");
-
-        // on matching input attempt to convert string to float
-        if (std::regex_match(str, re))
+        // validate input 
+        if(!isspace(str[0])) 
         {
-            try
+            char* tail;
+            errno = 0;
+            float f = strtod(str.c_str(), &tail);
+            if (errno == 0 && *tail == '\0' && f > FLT_MIN && f < FLT_MAX)
             {
-                return std::stof(str);
-            }
-            // in case of value exceeding float size do nothing and reprompt
-            catch (const std::exception&)
-            {
-                ;
+                // disallow hexadecimal and exponents
+                if (strcspn(str.c_str(), "XxEePp") == str.length())
+                {
+                    return f;
+                }
             }
         }
 
         // if we're here the input was not ok so reprompt
         std::cout << "Retry: ";
-
     }
 }
 
@@ -142,5 +144,3 @@ std::string get_string(void)
 }
 
 }
-
-

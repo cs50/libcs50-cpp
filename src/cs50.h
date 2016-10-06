@@ -3,6 +3,20 @@
 namespace cs50
 {
 
+/** Creates a class in which the constructor cancels buffering for cout.
+ * The class gets instantiated in cs50.cpp via a static member and, therefore,
+ * it gets created before main() gets called. 
+*/
+ 
+class BeforeMain
+{
+	public:
+		BeforeMain() 
+		{ 
+			std::cout.setf(std::ios::unitbuf); 
+		}
+};
+
 /**
  * TODO
  */
