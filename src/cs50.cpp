@@ -82,7 +82,7 @@ double get_double(void)
         bool valid;
         std::string str = read_input(&valid);
         // if eof or error return DBL_MAX
-        if(!valid)
+        if (!valid)
         {
             return DBL_MAX;
         }
@@ -122,7 +122,7 @@ float get_float(void)
         bool valid;
         std::string str = read_input(&valid);
         // if eof or error, return FLT_MAX
-        if(!valid)
+        if (!valid)
         {
             return FLT_MAX;
         }
