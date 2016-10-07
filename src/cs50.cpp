@@ -98,7 +98,7 @@ double get_double()
 /**
  * TODO
  */
-float get_float(void)
+float get_float()
 {
     // TODO
     return 0.0;
@@ -184,7 +184,7 @@ long long get_long_long()
  * reads a line of text from standard input and returns it as std::string. If
  * input is invalid it returns an empty std::string.
  */
-std::string get_string(void)
+std::string get_string()
 {
     // TODO: decide whether to return string or c_str
     bool valid;

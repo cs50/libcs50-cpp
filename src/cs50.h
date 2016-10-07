@@ -24,7 +24,7 @@ double get_double();
 /**
  * TODO
  */
-float get_float(void);
+float get_float();
 
 /**
  * Reads a line of text from standard input and returns the equivalent
