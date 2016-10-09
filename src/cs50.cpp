@@ -17,33 +17,7 @@ namespace cs50
  * so it's set to false when read fails or is in eof state, and set to true
  * otherwise.
  */
-std::string read_input(bool *ok)
-{
-    std::string str;
 
-    // attempt to read string input into s
-    std::getline(std::cin, str);
-
-    // check if input stream in bad state (hardware failure?)
-    if (std::cin.bad())
-    {
-        // if we're here we can't recover the cin stream
-        // we only get here in case of catastrophic error so throw
-        throw (std::runtime_error("cs50::input_string: error reading input"));
-    }
-
-    if (std::cin.eof() || std::cin.fail())
-    {
-        // report bad string input via side-effect and clear cin flags
-        *ok = false;
-        std::cin.clear();
-        return std::string();
-    }
-
-    // if we're here all is ok so we set sentinel to true and return the input
-    *ok = true;
-    return str;
-}
 
 /**
  * TODO
@@ -74,10 +48,6 @@ char get_char()
         catch (const std::domain_error& e)
         {
             return CHAR_MAX;
-        }
-        catch(...)
-        {
-            throw;
         }
 
         // return 1st char of str only if single char of input
@@ -134,10 +104,6 @@ int get_int()
         {
             return INT_MAX;
         }
-        catch (...)
-        {
-            throw;
-        }
 
         // check if input has no whitespace at beginning
         if (str.length() > 0 && !isspace(str[0]))
@@ -180,10 +146,6 @@ long long get_long_long()
         {
             return LLONG_MAX;
         }
-        catch (...)
-        {
-            throw;
-        }
 
         // check if there's input with no whitespace at the beginning
         if (str.length() > 0 && !isspace(str[0]))
@@ -212,7 +174,7 @@ std::string get_string(void)
     // TODO: decide whether to return string or c_str
     std::string str;
 
-    // attempt to read string input into s
+    // attempt to read string input into str
     std::getline(std::cin, str);
 
     // check if input stream in bad state (hardware failure?)
@@ -220,7 +182,7 @@ std::string get_string(void)
     {
         // if we're here we can't recover the cin stream
         // we only get here in case of catastrophic error so throw
-        throw (std::runtime_error("cs50::input_string: error reading input"));
+        throw (std::runtime_error("cs50::get_string: error reading input"));
     }
 
     if (std::cin.eof() || std::cin.fail())
