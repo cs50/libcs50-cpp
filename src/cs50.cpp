@@ -10,16 +10,6 @@ namespace cs50
 {
 
 /**
- * Reads a line of text from standard input and returns it as a std::string;
- * The function is used internally for reading input and handling console input
- * stream errors. If eof or input stream corrupt (failed to read into string).
- * The argument passed to bool *ok is used to check for eof or bad string input
- * so it's set to false when read fails or is in eof state, and set to true
- * otherwise.
- */
-
-
-/**
  * TODO
  */
 void eprintf()
@@ -40,7 +30,6 @@ char get_char()
         std::string str;
 
         // attempt to read string input, on bad input return CHAR_MAX
-        // on other caught exceptions just rethrow
         try
         {
             str = get_string();
@@ -95,7 +84,6 @@ int get_int()
         std::string str;
 
         // attempt to read string input, on bad input return INT_MAX
-        // on other caught exceptions just rethrow
         try
         {
             str = get_string();
@@ -137,7 +125,6 @@ long long get_long_long()
         std::string str;
 
         // attempt to read string input, on bad input return LLONG_MAX
-        // on other caught exceptions rethrow exception as is
         try
         {
             str = get_string();
@@ -167,7 +154,9 @@ long long get_long_long()
 
 /**
  * reads a line of text from standard input and returns it as std::string. If
- * input is invalid it returns an empty std::string.
+ * input stream goes bad (should never happen barring hardware issues) throws
+ * std::runtime_error object. If input is invalid (e.g. EOF etc)
+ * std::domain_error exception is thrown.
  */
 std::string get_string(void)
 {
