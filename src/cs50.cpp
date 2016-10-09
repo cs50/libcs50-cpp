@@ -1,8 +1,8 @@
 #include <climits>
 #include <iostream>
-#include <sstream>
 #include <stdexcept>
 #include <string>
+#include <sstream>
 
 #include "cs50.h"
 
@@ -63,14 +63,21 @@ char get_char()
 {
     while (true)
     {
-        // sentinel bool, false on EOF or failed reading of input
-        bool valid;
-        std::string str = read_input(&valid);
+        std::string str;
 
-        // on EOF, bad string input
-        if (valid == false)
+        // attempt to read string input, on bad input return CHAR_MAX
+        // on other caught exceptions just rethrow
+        try
+        {
+            str = get_string();
+        }
+        catch (const std::domain_error& e)
         {
             return CHAR_MAX;
+        }
+        catch(...)
+        {
+            throw;
         }
 
         // return 1st char of str only if single char of input
@@ -98,7 +105,7 @@ double get_double()
 /**
  * TODO
  */
-float get_float()
+float get_float(void)
 {
     // TODO
     return 0.0;
@@ -115,16 +122,24 @@ int get_int()
     // attempt to take an int from the user
     while (true)
     {
-        bool valid;
-        std::string str = read_input(&valid);
+        std::string str;
 
-        // on bad string input (EOF)
-        if (!valid)
+        // attempt to read string input, on bad input return INT_MAX
+        // on other caught exceptions just rethrow
+        try
+        {
+            str = get_string();
+        }
+        catch (const std::domain_error& e)
         {
             return INT_MAX;
         }
+        catch (...)
+        {
+            throw;
+        }
 
-        // check if there's input with no whitespace at beginning
+        // check if input has no whitespace at beginning
         if (str.length() > 0 && !isspace(str[0]))
         {
             std::istringstream iss(str);
@@ -153,13 +168,21 @@ long long get_long_long()
     // attempt to take an int from the user
     while (true)
     {
-        bool valid;
-        std::string str = read_input(&valid);
+        std::string str;
 
-        // on bad string input (EOF)
-        if (!valid)
+        // attempt to read string input, on bad input return LLONG_MAX
+        // on other caught exceptions rethrow exception as is
+        try
+        {
+            str = get_string();
+        }
+        catch (const std::domain_error& e)
         {
             return LLONG_MAX;
+        }
+        catch (...)
+        {
+            throw;
         }
 
         // check if there's input with no whitespace at the beginning
@@ -184,18 +207,33 @@ long long get_long_long()
  * reads a line of text from standard input and returns it as std::string. If
  * input is invalid it returns an empty std::string.
  */
-std::string get_string()
+std::string get_string(void)
 {
     // TODO: decide whether to return string or c_str
-    bool valid;
-    std::string s = read_input(&valid);
+    std::string str;
 
-    // return empty string on invalid input
-    if (valid == false)
+    // attempt to read string input into s
+    std::getline(std::cin, str);
+
+    // check if input stream in bad state (hardware failure?)
+    if (std::cin.bad())
     {
-        return std::string();
+        // if we're here we can't recover the cin stream
+        // we only get here in case of catastrophic error so throw
+        throw (std::runtime_error("cs50::input_string: error reading input"));
     }
-    return s;
+
+    if (std::cin.eof() || std::cin.fail())
+    {
+        // reset cin flags, enabling further input
+        std::cin.clear();
+
+        // throw exception on bad input
+        throw std::domain_error("cs50::get_string: bad input");
+    }
+
+    // if we're here all is ok so we return the input
+    return str;
 }
 
 }

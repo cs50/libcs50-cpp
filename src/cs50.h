@@ -24,7 +24,7 @@ double get_double();
 /**
  * TODO
  */
-float get_float();
+float get_float(void);
 
 /**
  * Reads a line of text from standard input and returns the equivalent
@@ -43,8 +43,7 @@ int get_int();
 long long get_long_long();
 
 /**
- * reads a line of text from standard input and returns it as std::string. If
- * input is invalid it returns an empty std::string.
+ * TODO
  */
 std::string get_string();
 
