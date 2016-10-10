@@ -24,42 +24,6 @@ void eprintf()
 }
 
 /**
- * Reads a line of text from standard input and returns it as a std::string;
- * The function is used internally for reading input and handling console input
- * stream errors. If eof or input stream corrupt (failed to read into string).
- * The argument passed to bool *ok is used to check for eof or bad string input
- * so it's set to false when read fails or is in eof state, and set to true
- * otherwise.
- */
-std::string read_input(bool *ok)
-{
-    std::string str;
-
-    // attempt to read string input into s
-    std::getline(std::cin, str);
-
-    // check if input stream in bad state (hardware failure?)
-    if (std::cin.bad())
-    {
-        // if we're here we can't recover the cin stream
-        // we only get here in case of catastrophic error so throw
-        throw (std::runtime_error("cs50::input_string: error reading input"));
-    }
-
-    if (std::cin.eof() || std::cin.fail())
-    {
-        // report bad string input via side-effect and clear cin flags
-        *ok = false;
-        std::cin.clear();
-        return std::string();
-    }
-
-    // if we're here all is ok so we set sentinel to true and return the input
-    *ok = true;
-    return str;
-}
-
-/**
  * TODO
  */
 char get_char(void)
@@ -79,10 +43,13 @@ double get_double(void)
     // attempt to take a double from the user
     while (true)
     {
-        bool valid;
-        std::string str = read_input(&valid);
+        std::string str;
         // if eof or error return DBL_MAX
-        if (!valid)
+        try
+        {
+            str = get_string();
+        }
+        catch (const std::domain_error& e)
         {
             return DBL_MAX;
         }
@@ -119,10 +86,13 @@ float get_float(void)
     // attempt to take a double from the user
     while (true)
     {
-        bool valid;
-        std::string str = read_input(&valid);
-        // if eof or error, return FLT_MAX
-        if (!valid)
+        std::string str;
+        // if eof or error return FLT_MAX
+        try
+        {
+            str = get_string();
+        }
+        catch (const std::domain_error& e)
         {
             return FLT_MAX;
         }
@@ -167,19 +137,37 @@ long long get_long_long(void)
 }
 
 /**
- * TODO
+ * reads a line of text from standard input and returns it as std::string. If
+ * input stream goes bad (should never happen barring hardware issues) throws
+ * std::runtime_error object. If input is invalid (e.g. EOF etc)
+ * std::domain_error exception is thrown.
  */
 std::string get_string(void)
 {
     // TODO: decide whether to return string or c_str
-    bool valid;
-    std::string s = read_input(&valid);
+    std::string str;
 
-    // return empty string on invalid input
-    if (valid == false)
+    // attempt to read string input into str
+    std::getline(std::cin, str);
+
+    // check if input stream in bad state (hardware failure?)
+    if (std::cin.bad())
     {
-        return std::string();
+        // if we're here we can't recover the cin stream
+        // we only get here in case of catastrophic error so throw
+        throw (std::runtime_error("cs50::get_string: error reading input"));
     }
-    return s;
+
+    if (std::cin.eof() || std::cin.fail())
+    {
+        // reset cin flags, enabling further input
+        std::cin.clear();
+
+        // throw exception on bad input
+        throw std::domain_error("cs50::get_string: bad input");
+    }
+
+    // if we're here all is ok so we return the input
+    return str;
 }
 }
