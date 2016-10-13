@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
 namespace cs50
 {
 
@@ -45,7 +46,20 @@ float get_float(void)
 int get_int(void)
 {
     // TODO
-    return 0;
+    static int num;
+	string tmp = get_string();
+	// check for correct format
+	for (int i = 0; i != tmp.size(); ++i)
+	{
+		// no need for INT_MAX checking
+		if (isalpha(tmp[i]))
+		{
+			cout << "please retry!" << endl;
+			get_int();
+		}
+	}
+	num = stoi(tmp);
+	return num;
 }
 
 /**
@@ -60,13 +74,19 @@ long long get_long_long(void)
 /**
  * TODO
  */
-std::string get_string(void)
+const string get_string(void)
 {
     // TODO: check for failure
     // TODO: decide whether to return string or c_str
-    std::string s;
-    std::getline(std::cin, s);
-    return s;
+    static string tmp;
+	getline(cin, tmp);
+	
+	if ((tmp.empty() || isspace(tmp[0])) && (tmp.size() != tmp.max_size()))
+	{
+		cout << "please retry!" << endl;
+		get_string();
+	}
+    
+    return tmp;
 }
 
-}
