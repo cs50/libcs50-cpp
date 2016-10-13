@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
 namespace cs50
 {
 
@@ -73,7 +74,7 @@ long long get_long_long(void)
 /**
  * TODO
  */
-std::const string get_string(void)
+const string get_string(void)
 {
     // TODO: check for failure
     // TODO: decide whether to return string or c_str
