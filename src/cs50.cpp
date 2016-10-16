@@ -32,7 +32,15 @@ char get_char()
         // attempt to read string input, on bad input return CHAR_MAX
         try
         {
-            str = get_string();
+            // a bool to handle EOF, passed to get_string by address
+            bool eof;
+            str = get_string(&eof);
+            
+            // if EOF was read we return our sentinel value here 
+            if (eof)
+            {
+                return CHAR_MAX;
+            }
         }
         catch (const std::domain_error& e)
         {
@@ -86,9 +94,17 @@ int get_int()
         // attempt to read string input, on bad input return INT_MAX
         try
         {
-            str = get_string();
+            // a bool to handle EOF, passed to get_string by address
+            bool eof;
+            str = get_string(&eof);
+            
+            // if EOF was read we return our sentinel value here 
+            if (eof)
+            {
+                return INT_MAX;
+            }
         }
-        catch (const std::domain_error& e)
+        catch (const std::runtime_error& e)
         {
             return INT_MAX;
         }
@@ -127,9 +143,17 @@ long long get_long_long()
         // attempt to read string input, on bad input return LLONG_MAX
         try
         {
-            str = get_string();
+            // a bool to handle EOF, passed to get_string by address
+            bool eof;
+            str = get_string(&eof);
+            
+            // if EOF was read we return our sentinel value here 
+            if (eof)
+            {
+                return LLONG_MAX;
+            }
         }
-        catch (const std::domain_error& e)
+        catch (const std::runtime_error& e)
         {
             return LLONG_MAX;
         }
@@ -153,37 +177,53 @@ long long get_long_long()
 }
 
 /**
- * reads a line of text from standard input and returns it as std::string. If
- * input stream goes bad (should never happen barring hardware issues) throws
- * std::runtime_error object. If input is invalid (e.g. EOF etc)
- * std::domain_error exception is thrown.
+ * reads a line of text from standard input and returns it as std::string. It
+ * takes an optional bool pointer argument to signify EOF to the caller.
+ * is_eof's default argument is NULL (set in the header).
+ * If input stream goes bad or read fails (should never happen barring hardware 
+ * issues) throws std::runtime_error object. If EOF is read returns empty
+ * string after setting the guard bool to true if applicable 
  */
-std::string get_string(void)
+std::string get_string(bool *is_eof)
 {
-    // TODO: decide whether to return string or c_str
     std::string str;
 
     // attempt to read string input into str
     std::getline(std::cin, str);
 
-    // check if input stream in bad state (hardware failure?)
-    if (std::cin.bad())
+    // handle EOF, input fail and bad input, clear cin error flags
+    if (std::cin.eof())
     {
-        // if we're here we can't recover the cin stream
-        // we only get here in case of catastrophic error so throw
-        throw (std::runtime_error("cs50::get_string: error reading input"));
-    }
+        // reset cin flags to enable further input
+        std::cin.clear();
 
-    if (std::cin.eof() || std::cin.fail())
+        // if is_eof was passed to function set bool to true on EOF
+        if (is_eof)
+        {
+            *is_eof = true;
+        }
+        return std::string();
+    }
+    else if (std::cin.fail())
     {
-        // reset cin flags, enabling further input
+        // reset cin flags to enable further input
         std::cin.clear();
 
         // throw exception on bad input
-        throw std::domain_error("cs50::get_string: bad input");
+        throw std::runtime_error("cs50::get_string: error reading input");
+    }
+    else if (std::cin.bad())
+    {
+        // if we're here we can't recover the cin stream
+        // we only get here in case of catastrophic error so throw
+        throw std::runtime_error("cs50::get_string: error reading input");
     }
 
-    // if we're here all is ok so we return the input
+    // if we're here all is ok so we set the bool, if passed, and return
+    if (is_eof)
+    { 
+        *is_eof = false;
+    }
     return str;
 }
 

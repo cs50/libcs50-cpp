@@ -43,8 +43,13 @@ int get_int();
 long long get_long_long();
 
 /**
- * TODO
+ * reads a line of text from standard input and returns it as std::string. It
+ * takes an optional bool pointer argument to signify EOF to the caller.
+ * is_eof's default argument is NULL.
+ * If input stream goes bad or read fails (should never happen barring hardware 
+ * issues) throws std::runtime_error object. If EOF is read returns empty
+ * string after setting the guard bool to true if applicable 
  */
-std::string get_string();
+std::string get_string(bool *is_eof = NULL);
 
 }
