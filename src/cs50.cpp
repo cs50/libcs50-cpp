@@ -1,5 +1,6 @@
 #include <cfloat>
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -36,7 +37,7 @@ char get_char(void)
  * Reads a line of text from standard input and returns the equivalent
  * double as precisely as possible; if text does not represent a
  * double or if value would cause underflow or overflow, user is
- * prompted to retry. If line can't be read, returns DBL_MAX.
+ * prompted to retry. If line can't be read or EOF, returns DBL_MAX.
  */
 double get_double(void)
 {
@@ -47,9 +48,16 @@ double get_double(void)
         // if eof or error return DBL_MAX
         try
         {
-            str = get_string();
+            // a bool to handle EOF, passed to get_string by address
+            bool eof;
+            str = get_string(&eof);
+            // if EOF was read we return our sentinel value here 
+            if (eof)
+            {
+                return DBL_MAX;
+            }
         }
-        catch (const std::domain_error& e)
+        catch (const std::runtime_error&)
         {
             return DBL_MAX;
         }
@@ -79,7 +87,7 @@ double get_double(void)
  * Reads a line of text from standard input and returns the equivalent
  * float as precisely as possible; if text does not represent a
  * float or if value would cause underflow or overflow, user is
- * prompted to retry. If line can't be read, returns FLT_MAX.
+ * prompted to retry. If line can't be read or EOF, returns FLT_MAX.
  */
 float get_float(void)
 {
@@ -90,9 +98,16 @@ float get_float(void)
         // if eof or error return FLT_MAX
         try
         {
-            str = get_string();
+            // a bool to handle EOF, passed to get_string by address
+            bool eof;
+            str = get_string(&eof);
+            // if EOF was read we return our sentinel value here 
+            if (eof)
+            {
+                return FLT_MAX;
+            }
         }
-        catch (const std::domain_error& e)
+        catch (const std::runtime_error&)
         {
             return FLT_MAX;
         }
@@ -137,37 +152,53 @@ long long get_long_long(void)
 }
 
 /**
- * reads a line of text from standard input and returns it as std::string. If
- * input stream goes bad (should never happen barring hardware issues) throws
- * std::runtime_error object. If input is invalid (e.g. EOF etc)
- * std::domain_error exception is thrown.
+ * reads a line of text from standard input and returns it as std::string. It
+ * takes an optional bool pointer argument to signify EOF to the caller.
+ * is_eof's default argument is NULL (set in the header).
+ * If input stream goes bad or read fails (should never happen barring hardware 
+ * issues) throws std::runtime_error object. If EOF is read returns empty
+ * string after setting the guard bool to true if applicable 
  */
-std::string get_string(void)
+std::string get_string(bool *is_eof)
 {
-    // TODO: decide whether to return string or c_str
     std::string str;
 
     // attempt to read string input into str
     std::getline(std::cin, str);
 
-    // check if input stream in bad state (hardware failure?)
-    if (std::cin.bad())
+    // handle EOF, input fail and bad input, clear cin error flags
+    if (std::cin.eof())
     {
-        // if we're here we can't recover the cin stream
-        // we only get here in case of catastrophic error so throw
-        throw (std::runtime_error("cs50::get_string: error reading input"));
-    }
+        // reset cin flags to enable further input
+        std::cin.clear();
 
-    if (std::cin.eof() || std::cin.fail())
+        // if is_eof was passed to function set bool to true on EOF
+        if (is_eof != NULL)
+        {
+            *is_eof = true;
+        }
+        return std::string();
+    }
+    else if (std::cin.fail())
     {
-        // reset cin flags, enabling further input
+        // reset cin flags to enable further input
         std::cin.clear();
 
         // throw exception on bad input
-        throw std::domain_error("cs50::get_string: bad input");
+        throw std::runtime_error("cs50::get_string: error reading input");
+    }
+    else if (std::cin.bad())
+    {
+        // if we're here we can't recover the cin stream
+        // we only get here in case of catastrophic error so throw
+        throw std::runtime_error("cs50::get_string: error reading input");
     }
 
-    // if we're here all is ok so we return the input
+    // if we're here all is ok so we set the bool, if passed, and return
+    if (is_eof != NULL)
+    { 
+        *is_eof = false;
+    }
     return str;
 }
 }

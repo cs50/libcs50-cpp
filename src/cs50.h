@@ -29,12 +29,18 @@ void eprintf();
 char get_char(void);
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent
+ * double as precisely as possible; if text does not represent a
+ * double or if value would cause underflow or overflow, user is
+ * prompted to retry. If line can't be read or EOF, returns DBL_MAX.
  */
 double get_double(void);
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent
+ * float as precisely as possible; if text does not represent a
+ * float or if value would cause underflow or overflow, user is
+ * prompted to retry. If line can't be read or EOF, returns FLT_MAX.
  */
 float get_float(void);
 
@@ -49,8 +55,12 @@ int get_int(void);
 long long get_long_long(void);
 
 /**
- * TODO
+ * reads a line of text from standard input and returns it as std::string. It
+ * takes an optional bool pointer argument to signify EOF to the caller.
+ * is_eof's default argument is NULL.
+ * If input stream goes bad or read fails (should never happen barring hardware 
+ * issues) throws std::runtime_error object. If EOF is read returns empty
+ * string after setting the guard bool to true if applicable 
  */
-std::string get_string(void);
-
+std::string get_string(bool *is_eof = NULL);
 }
