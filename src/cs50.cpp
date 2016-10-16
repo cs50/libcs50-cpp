@@ -29,7 +29,7 @@ char get_char()
     {
         std::string str;
 
-        // attempt to read string input, on bad input return CHAR_MAX
+        // attempt to read string input, on error or EOF return CHAR_MAX
         try
         {
             // a bool to handle EOF, passed to get_string by address
@@ -42,7 +42,7 @@ char get_char()
                 return CHAR_MAX;
             }
         }
-        catch (const std::domain_error& e)
+        catch (const std::runtime_error&)
         {
             return CHAR_MAX;
         }
@@ -91,7 +91,7 @@ int get_int()
     {
         std::string str;
 
-        // attempt to read string input, on bad input return INT_MAX
+        // attempt to read string input, on error or EOF return CHAR_MAX
         try
         {
             // a bool to handle EOF, passed to get_string by address
@@ -104,7 +104,7 @@ int get_int()
                 return INT_MAX;
             }
         }
-        catch (const std::runtime_error& e)
+        catch (const std::runtime_error&)
         {
             return INT_MAX;
         }
@@ -140,7 +140,7 @@ long long get_long_long()
     {
         std::string str;
 
-        // attempt to read string input, on bad input return LLONG_MAX
+        // attempt to read string input, on error or EOF return LLONG_MAX
         try
         {
             // a bool to handle EOF, passed to get_string by address
@@ -153,7 +153,7 @@ long long get_long_long()
                 return LLONG_MAX;
             }
         }
-        catch (const std::runtime_error& e)
+        catch (const std::runtime_error&)
         {
             return LLONG_MAX;
         }
@@ -198,7 +198,7 @@ std::string get_string(bool *is_eof)
         std::cin.clear();
 
         // if is_eof was passed to function set bool to true on EOF
-        if (is_eof)
+        if (is_eof != NULL)
         {
             *is_eof = true;
         }
@@ -220,7 +220,7 @@ std::string get_string(bool *is_eof)
     }
 
     // if we're here all is ok so we set the bool, if passed, and return
-    if (is_eof)
+    if (is_eof != NULL)
     { 
         *is_eof = false;
     }
