@@ -9,14 +9,17 @@ namespace cs50
 void eprintf();
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent
+ * char; if text does not represent a char, user is prompted to retry.
+ * If eof or input stream corrupt (failed to read into string) returns
+ * CHAR_MAX.
  */
-char get_char(void);
+char get_char();
 
 /**
  * TODO
  */
-double get_double(void);
+double get_double();
 
 /**
  * TODO
@@ -24,18 +27,24 @@ double get_double(void);
 float get_float(void);
 
 /**
- * TODO
+ * Reads a line of text from standard input and returns the equivalent
+ * char; if text does not represent a char, user is prompted to retry.
+ * If eof or input stream corrupt (failed to read into string) returns
+ * INT_MAX.
  */
-int get_int(void);
+int get_int();
+
+/**
+ * Reads a line of text from standard input and returns the equivalent
+ * char; if text does not represent a char, user is prompted to retry.
+ * If eof or input stream corrupt (failed to read into string) returns
+ * INT_MAX.
+ */
+long long get_long_long();
 
 /**
  * TODO
  */
-long long get_long_long(void);
-
-/**
- * TODO
- */
-std::string get_string(void);
+std::string get_string();
 
 }
