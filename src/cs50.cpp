@@ -75,7 +75,7 @@ long long get_long_long(void)
 }
 
 
-std::string get_string(void)
+char* get_string(void)
 {
     // TODO: check for failure
     // TODO: decide whether to return string or c_str
