@@ -76,6 +76,7 @@ double get_double(void)
          	return DBL_MAX;
         }
         printf("Retry: ");
+    }
 }
 
 /**
