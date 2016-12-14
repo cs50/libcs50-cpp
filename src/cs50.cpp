@@ -169,12 +169,9 @@ std::string get_string(void)
 {
     // TODO: check for failure
     // TODO: decide whether to return string or c_str
-    std::string s;
-    std::getline(std::cin, s);
-    std::string s;
+        std::string s;
 	getline(std::cin, s);
-	// check for failure on string class 
-	if(!std::cin.good()) // if not good
+    if(!std::cin.good()) // if not good
 	{
 		throw std::invalid_argument("Something went wrong");
 	}
