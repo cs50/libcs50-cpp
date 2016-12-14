@@ -165,7 +165,7 @@ long long get_long_long(void)
  */
  // acts like a parser for the other methods yet to follow
 // discarding whitespace characters is done in get_string
-std::string get_string(void)
+char* get_string(void)
 {
     // TODO: check for failure
     // TODO: decide whether to return string or c_str
