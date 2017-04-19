@@ -11,31 +11,31 @@ void eprintf();
 /**
  * TODO
  */
-char get_char(void);
+char get_char(const std::string& prompt = std::string());
 
 /**
  * TODO
  */
-double get_double(void);
+double get_double(const std::string& prompt = std::string());
 
 /**
  * TODO
  */
-float get_float(void);
+float get_float(const std::string& prompt = std::string());
 
 /**
  * TODO
  */
-int get_int(void);
+int get_int(const std::string& prompt = std::string());
 
 /**
  * TODO
  */
-long long get_long_long(void);
+long long get_long_long(const std::string& prompt = std::string());
 
 /**
  * TODO
  */
-std::string get_string(void);
+std::string get_string(const std::string& prompt = std::string());
 
 }

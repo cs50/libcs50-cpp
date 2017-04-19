@@ -15,7 +15,7 @@ void eprintf()
 /**
  * TODO
  */
-char get_char(void)
+char get_char(const std::string& prompt = std::string())
 {
     // TODO
     return '\0';
@@ -24,7 +24,7 @@ char get_char(void)
 /**
  * TODO
  */
-double get_double(void)
+double get_double(const std::string& prompt = std::string())
 {
     // TODO
     return 0.0;
@@ -33,7 +33,7 @@ double get_double(void)
 /**
  * TODO
  */
-float get_float(void)
+float get_float(const std::string& prompt = std::string())
 {
     // TODO
     return 0.0;
@@ -42,7 +42,7 @@ float get_float(void)
 /**
  * TODO
  */
-int get_int(void)
+int get_int(const std::string& prompt = std::string())
 {
     // TODO
     return 0;
@@ -51,7 +51,7 @@ int get_int(void)
 /**
  * TODO
  */
-long long get_long_long(void)
+long long get_long_long(const std::string& prompt = std::string())
 {
     // TODO
     return 0;
@@ -60,10 +60,8 @@ long long get_long_long(void)
 /**
  * TODO
  */
-std::string get_string(void)
+std::string get_string(const std::string& prompt = std::string())
 {
-    // TODO: check for failure
-    // TODO: decide whether to return string or c_str
     std::string s;
     std::getline(std::cin, s);
     return s;
