@@ -1,70 +1,13 @@
-#include <iostream>
-#include <string>
+#include "cs50.hpp"
 
-namespace cs50
+struct BufferingDisabler
 {
+    BufferingDisabler()
+    {
+        // Should we make EOF/read errors exceptions?
+        //std::cin.exceptions(std::ios_base::eofbit | std::ios_base::badbit);
+        std::cout.setf(std::ios::unitbuf);
+    }
+};
 
-/**
- * TODO
- */
-void eprintf()
-{
-    // TODO
-}
-
-/**
- * TODO
- */
-char get_char(const std::string& prompt = std::string())
-{
-    // TODO
-    return '\0';
-}
-
-/**
- * TODO
- */
-double get_double(const std::string& prompt = std::string())
-{
-    // TODO
-    return 0.0;
-}
-
-/**
- * TODO
- */
-float get_float(const std::string& prompt = std::string())
-{
-    // TODO
-    return 0.0;
-}
-
-/**
- * TODO
- */
-int get_int(const std::string& prompt = std::string())
-{
-    // TODO
-    return 0;
-}
-
-/**
- * TODO
- */
-long long get_long_long(const std::string& prompt = std::string())
-{
-    // TODO
-    return 0;
-}
-
-/**
- * TODO
- */
-std::string get_string(const std::string& prompt = std::string())
-{
-    std::string s;
-    std::getline(std::cin, s);
-    return s;
-}
-
-}
+static BufferingDisabler _disable_buffering;
