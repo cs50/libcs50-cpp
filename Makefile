@@ -24,7 +24,7 @@ bash:
 .PHONY: build
 build: clean Makefile $(SRC) $(HDR)
 	mkdir -p "$(INCLUDE_DIR)" "$(LIB_DIR)" "$(BUILD_SRC)"
-	$(CC) -c -fPIC -std=c++17 -Wall -o "$(OBJ)" "$(SRC)"
+	$(CC) -c -fPIC -std=c++11 -Wall -o "$(OBJ)" "$(SRC)"
 	$(CC) -o "$(LIB_DIR)/libcs50++.so" -shared "$(OBJ)"
 	rm -f "$(OBJ)"
 	cp "$(HDR)" "$(INCLUDE_DIR)"

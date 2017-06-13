@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
 #include <limits>
-#include <string_view>
 
 namespace cs50 {
     template<typename T>
-    T get(std::string_view prompt = std::string_view()) {
+    T get(std::string const& prompt = std::string()) 
+    {
         if (prompt.size()) {
             std::cout << prompt;
         }
@@ -14,6 +14,7 @@ namespace cs50 {
             T i;
             if (std::cin >> std::noskipws >> i && i != std::numeric_limits<T>::max())
             {
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
                 return i;
             } 
             else if (std::cin.bad() || std::cin.eof())
@@ -22,7 +23,7 @@ namespace cs50 {
             } 
             else 
             {
-                std::cout << (prompt.empty() ? "Retry: " : prompt);
+                std::cout << (prompt.empty() ? "Retry: " : prompt.c_str());
 
                 // Clear fail bit
                 std::cin.clear();
@@ -35,7 +36,8 @@ namespace cs50 {
 
     // Specialize get template for strings
     template<>
-    std::string get(std::string_view prompt) {
+    std::string get<std::string>(std::string const& prompt)
+    {
         if (prompt.size()) {
             std::cout << prompt;
         }
