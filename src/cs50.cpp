@@ -69,7 +69,7 @@ char get_char(const std::string &prompt = std::string())
  * double or if value would cause underflow or overflow, user is
  * prompted to retry. If line can't be read or EOF, returns DBL_MAX.
  */
-double get_double(const std::string &prompt)
+double get_double(const std::string &prompt = std::string())
 {
     // attempt to take a double from the user
     while (true)
@@ -117,7 +117,7 @@ double get_double(const std::string &prompt)
  * float or if value would cause underflow or overflow, user is
  * prompted to retry. If line can't be read or EOF, returns FLT_MAX.
  */
-float get_float(const std::string &prompt)
+float get_float(const std::string &prompt = std::string())
 {
     // attempt to take a double from the user
     while (true)
@@ -165,7 +165,7 @@ float get_float(const std::string &prompt)
  * or input stream corrupt (failed to read into string) or int is out of range
  * returns INT_MAX.
  */
-int get_int(const std::string &prompt)
+int get_int(const std::string &prompt = std::string())
 {
     // attempt to take an int from the user
     while (true)
@@ -211,7 +211,7 @@ int get_int(const std::string &prompt)
  * retry. If eof or input stream corrupt (failed to read into string) or out of
  * range returns LLONG_MAX.
  */
-long long get_long_long(const std::string &prompt)
+long long get_long_long(const std::string &prompt = std::string())
 {
     // attempt to take an int from the user
     while (true)
