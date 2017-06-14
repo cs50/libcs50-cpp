@@ -213,7 +213,7 @@ int get_int(const std::string &prompt = std::string())
  */
 long long get_long_long(const std::string &prompt = std::string())
 {
-    // attempt to take an int from the user
+    // attempt to take a long long int from the user
     while (true)
     {
         std::string str;
