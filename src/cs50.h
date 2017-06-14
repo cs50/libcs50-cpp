@@ -26,7 +26,7 @@ void eprintf();
 /**
  * TODO
  */
-char get_char(void);
+char get_char(const std::string &prompt);
 
 /**
  * Reads a line of text from standard input and returns the equivalent
@@ -34,7 +34,7 @@ char get_char(void);
  * double or if value would cause underflow or overflow, user is
  * prompted to retry. If line can't be read or EOF, returns DBL_MAX.
  */
-double get_double(void);
+double get_double(const std::string &prompt);
 
 /**
  * Reads a line of text from standard input and returns the equivalent
@@ -42,17 +42,17 @@ double get_double(void);
  * float or if value would cause underflow or overflow, user is
  * prompted to retry. If line can't be read or EOF, returns FLT_MAX.
  */
-float get_float(void);
+float get_float(const std::string &prompt);
 
 /**
  * TODO
  */
-int get_int(void);
+int get_int(const std::string &prompt);
 
 /**
  * TODO
  */
-long long get_long_long(void);
+long long get_long_long(const std::string &prompt);
 
 /**
  * reads a line of text from standard input and returns it as std::string. It
@@ -62,5 +62,5 @@ long long get_long_long(void);
  * issues) throws std::runtime_error object. If EOF is read returns empty
  * string after setting the guard bool to true if applicable 
  */
-std::string get_string(bool *is_eof = NULL);
+std::string get_string(const std::string &prompt, bool *is_eof);
 }
