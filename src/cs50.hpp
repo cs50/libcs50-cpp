@@ -62,22 +62,21 @@ namespace cs50
         }
     }
 
-    struct Eprinter
+    struct eout
     {
-        Eprinter(char const *file, unsigned line)
+        eout(char const *file, unsigned line)
         {
             std::cerr << file << ':' << line << ": ";
         }
 
         template<typename T>
-        Eprinter& operator<<(T const& t)
+        eout& operator<<(T const& t)
         {
             std::cerr << t;
             return *this;
         }
     };
 
-    // Not truly namespaced
-    #define eout Eprinter(__FILE__, __LINE__)
+    #define eout eout(__FILE__, __LINE__)
 }
 
