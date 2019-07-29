@@ -1,7 +1,7 @@
 #include <iostream>
-#include <string>
 #include <limits>
 #include <sstream>
+#include <string>
 
 namespace cs50
 {
@@ -18,7 +18,8 @@ namespace cs50
             {
                 // Ensure `i` is not the maximum value of its type and that there
                 // are no more characters in the stream after reading it
-                if (i != std::numeric_limits<T>::max() && !stream.rdbuf()->in_avail()) {
+                if (i != std::numeric_limits<T>::max() && !stream.rdbuf()->in_avail())
+                {
                     return i;
                 }
             }
@@ -29,16 +30,10 @@ namespace cs50
             {
                 return std::numeric_limits<T>::max();
             }
-
-            if (prompt.empty())
-            {
-                std::cout << "Retry: ";
-            }
         }
     }
 
-
-    // Specialize get template for strings
+    // Specialized get template for strings
     template<>
     std::string get(std::string const& prompt)
     {
@@ -61,22 +56,4 @@ namespace cs50
             }
         }
     }
-
-    struct eout
-    {
-        eout(char const *file, unsigned line)
-        {
-            std::cerr << file << ':' << line << ": ";
-        }
-
-        template<typename T>
-        eout& operator<<(T const& t)
-        {
-            std::cerr << t;
-            return *this;
-        }
-    };
-
-    #define eout eout(__FILE__, __LINE__)
 }
-
